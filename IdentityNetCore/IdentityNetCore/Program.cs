@@ -1,3 +1,6 @@
+using IdentityNetCore.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace IdentityNetCore
 {
     public class Program
@@ -8,7 +11,10 @@ namespace IdentityNetCore
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddDbContext<DataContext>(o =>
+            {
+                o.UseSqlServer(builder.Configuration.GetConnectionString("ConexionSQL"));
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
