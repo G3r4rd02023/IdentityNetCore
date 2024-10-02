@@ -1,10 +1,12 @@
 ﻿using IdentityNetCore.Data;
 using IdentityNetCore.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace IdentityNetCore.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PeliculasController : Controller
     {
         private readonly DataContext _context;

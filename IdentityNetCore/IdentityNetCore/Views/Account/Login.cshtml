@@ -1,0 +1,76 @@
+﻿@model IdentityNetCore.Models.LoginViewModel
+@{
+    Layout = null;
+}
+
+<html>
+<head>
+    <style>
+        body {
+            background-image: url('/images/banner tecnologer.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ddd;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width" />
+    <title>IniciarSesion</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+
+    <div class="container mt-5 pt-5">
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-4 col-md-6">
+
+                <div class="card bg-black text-white">
+                    <div class="card-header d-flex justify-content-center">
+                        <img src="/images/Tecnologers.png" style="width: 150px; height: auto;" />
+                    </div>
+                    <div class="card-body">
+
+                        <form asp-controller="Account" asp-action="Login" method="post">
+
+                            <input asp-for="Username" class="form-control mb-3" type="text" placeholder="Usuario" />
+                            <input asp-for="Password" class="form-control mb-3" type="password" placeholder="Contraseña" />
+                            <div class="form-group mt-2">
+                                <div class="form-check">
+                                    <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
+                                    <label asp-for="RememberMe" class="form-check-label"></label>
+                                </div>
+                                <span asp-validation-for="RememberMe" class="text-warning"></span>
+                            </div>
+                            <div class="d-grid gap-2 mb-3">
+                                <button class="btn btn-info" type="submit">Iniciar Sesion</button>
+                            </div>
+                            @if (ViewData["Mensaje"] != null)
+                            {
+
+                                <div class="form-group">
+                                    <div class="alert alert-danger" role="alert">
+                                        @ViewData["Mensaje"]
+                                    </div>
+                                </div>
+                            }
+                            ¿No tienes una cuenta? <a href="@Url.Action("Register","Account")" class="text-info"> Registraste!</a>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

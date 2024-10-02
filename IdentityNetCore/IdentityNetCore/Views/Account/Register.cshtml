@@ -1,0 +1,92 @@
+﻿@model IdentityNetCore.Models.AddUserViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+
+<html>
+<head>
+    <style>
+        body {
+            background-image: url('/images/banner tecnologer.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ddd;
+        }
+    </style>
+    <meta name="viewport" content="width=device-width" />
+    <title>Registrarse</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <div class="container mt-5 pt-5">
+
+        <div class="row justify-content-center">
+            <div class="col-12 col-xl-4 col-md-6">
+
+                <div class="card bg-black">
+                    <div class="card-header d-flex justify-content-center">
+                        <img src="/images/Tecnologers.png" style="width: 150px; height: auto;" />
+                    </div>
+                    <div class="card-body">
+
+                        <form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="Rol" />
+                            <input type="hidden" asp-for="Contrasena" />
+                            <input type="hidden" asp-for="CorreoElectronico" />
+
+                            <input class="form-control mb-3" type="text" placeholder="Nombre" asp-for="Nombre" required />
+                            
+
+                            <input class="form-control mb-3" type="email" placeholder="Email" required asp-for="Username" />
+                            <input class="form-control mb-3" type="password" placeholder="Contraseña" required asp-for="Password" />
+                            <input class="form-control mb-3" type="password" placeholder="Confirmar Contraseña " asp-for="PasswordConfirm" required />
+                            
+
+                            <div class="d-grid gap-2 mb-3">
+                                <button class="btn btn-primary" type="submit">Registrarse</button>
+                            </div>
+
+                            @if (ViewData["Mensaje"] != null)
+                            {
+                                <div class="form-group">
+                                    <div class="alert alert-danger" role="alert">
+                                        @ViewData["Mensaje"]
+                                    </div>
+                                </div>
+                            }
+
+                            ¿Ya tienes una cuenta? <a href="@Url.Action("Login", "Account")" class="text-info"> Iniciar Sesión</a>
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
