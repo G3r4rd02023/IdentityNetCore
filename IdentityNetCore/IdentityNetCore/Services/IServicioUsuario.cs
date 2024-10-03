@@ -22,5 +22,11 @@ namespace IdentityNetCore.Services
         Task LogoutAsync();
 
         Task<Usuario> AddUserAsync(AddUserViewModel model);
+
+        Task<IdentityResult> ChangePasswordAsync(Usuario user, string oldPassword, string newPassword);
+
+        Task<IdentityResult> UpdateUserAsync(Usuario user);
+
+        Task<Usuario> GetUserAsync(Guid userId);
     }
 }

@@ -1,0 +1,37 @@
+﻿@model IdentityNetCore.Models.EditUserViewModel
+@{
+    ViewData["Title"] = "ChangeUser";
+}
+
+<div class=" col-md-12">
+    <div class=" card">
+        <div class=" card-header text-center">
+            <h5> Editar Usuario</h5>
+        </div>
+        <div class=" card-body">
+            <form asp-action="ChangeUser" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Id" />               
+                <input type="hidden" asp-for="Contrasena" />
+                <input type="hidden" asp-for="CorreoElectronico" />
+                <input type="hidden" asp-for="FechaRegistro" />
+
+                <input class="form-control mb-3" type="text" placeholder="Nombre" asp-for="Nombre" required />              
+                <input class="form-control mb-3" type="text" placeholder="Correo" asp-for="CorreoElectronico" required />
+
+                <div class=" card-footer ">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-sm btn-success"> Guardar</button>
+                        <a asp-action="ChangePassword" class="btn btn-sm btn-info">Cambiar Contraseña</a>
+                        <button type="button" class="btn btn-sm btn-primary" onclick="history.back()">Cancelar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
