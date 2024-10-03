@@ -1,5 +1,6 @@
 ﻿using IdentityNetCore.Data;
 using IdentityNetCore.Data.Entities;
+using IdentityNetCore.Migrations;
 using IdentityNetCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -113,6 +114,16 @@ namespace IdentityNetCore.Services
         public async Task<string> GenerateEmailConfirmationTokenAsync(Usuario user)
         {
             return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
+
+        public async Task<string> GeneratePasswordResetTokenAsync(Usuario user)
+        {
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public async Task<IdentityResult> ResetPasswordAsync(Usuario user, string token, string password)
+        {
+            return await _userManager.ResetPasswordAsync(user, token, password);
         }
     }
 }

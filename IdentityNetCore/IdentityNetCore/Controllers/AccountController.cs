@@ -208,5 +208,69 @@ namespace IdentityNetCore.Controllers
             }
             return View();
         }
+
+        public IActionResult RecoverPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RecoverPassword(RecoverPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Usuario user = await _usuario.GetUserAsync(model.Email!);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "El email no corresponde a ningún usuario registrado.");
+                    return View(model);
+                }
+                string myToken = await _usuario.GenerateEmailConfirmationTokenAsync(user);
+                string tokenLink = Url.Action("ConfirmEmail", "Account", new
+                {
+                    userid = user.Id,
+                    token = myToken
+                }, protocol: HttpContext.Request.Scheme)!;
+
+                Response response = _correo.SendMail(
+               $"{user.Nombre}",
+                model.Email!,
+                "Tecnologers - Confirmación de Email",
+                $"<h1>Tecnologers - Confirmación de Email</h1>" +
+                $"Para habilitar el usuario por favor hacer clic en el siguiente link:, " +
+                $"<p><a href = \"{tokenLink}\">Confirmar Email</a></p>");
+                if (response.IsSuccess)
+                {
+                    ViewBag.Message = "Las instrucciones para habilitar el usuario han sido enviadas al correo.";
+                    return View(model);
+                }
+                ModelState.AddModelError(string.Empty, response.Message!);
+            }
+            return View(model);
+        }
+
+        public IActionResult ResetPassword(string token)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            Usuario user = await _usuario.GetUserAsync(model.UserName!);
+            if (user != null)
+            {
+                IdentityResult result = await _usuario.ResetPasswordAsync(user, model.Token!, model.Password!);
+                if (result.Succeeded)
+                {
+                    ViewBag.Message = "Contraseña cambiada con éxito.";
+                    return View();
+                }
+                ViewBag.Message = "Error cambiando la contraseña.";
+                return View(model);
+            }
+            ViewBag.Message = "Usuario no encontrado.";
+            return View(model);
+        }
     }
 }
