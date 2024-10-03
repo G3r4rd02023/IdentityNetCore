@@ -28,5 +28,9 @@ namespace IdentityNetCore.Services
         Task<IdentityResult> UpdateUserAsync(Usuario user);
 
         Task<Usuario> GetUserAsync(Guid userId);
+
+        Task<string> GenerateEmailConfirmationTokenAsync(Usuario user);
+
+        Task<IdentityResult> ConfirmEmailAsync(Usuario user, string token);
     }
 }

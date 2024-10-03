@@ -21,6 +21,8 @@ namespace IdentityNetCore
 
             builder.Services.AddIdentity<Usuario, IdentityRole>(x =>
             {
+                x.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultAuthenticatorProvider;
+                x.SignIn.RequireConfirmedEmail = true;
                 x.User.RequireUniqueEmail = true;
                 x.Password.RequireDigit = false;
                 x.Password.RequiredUniqueChars = 0;
@@ -30,11 +32,13 @@ namespace IdentityNetCore
                 x.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 x.Lockout.MaxFailedAccessAttempts = 3;
                 x.Lockout.AllowedForNewUsers = true;
-            }).AddEntityFrameworkStores<DataContext>();
+            })
+                .AddDefaultTokenProviders()
+                .AddEntityFrameworkStores<DataContext>();
 
             builder.Services.AddTransient<SeedDb>();
             builder.Services.AddScoped<IServicioUsuario, ServicioUsuario>();
-
+            builder.Services.AddScoped<IServicioCorreo, ServicioCorreo>();
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/NotAuthorized";

@@ -1,6 +1,5 @@
 ﻿using IdentityNetCore.Data;
 using IdentityNetCore.Data.Entities;
-using IdentityNetCore.Migrations;
 using IdentityNetCore.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -104,6 +103,16 @@ namespace IdentityNetCore.Services
         public async Task<IdentityResult> UpdateUserAsync(Usuario user)
         {
             return await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<IdentityResult> ConfirmEmailAsync(Usuario user, string token)
+        {
+            return await _userManager.ConfirmEmailAsync(user, token);
+        }
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(Usuario user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
         }
     }
 }

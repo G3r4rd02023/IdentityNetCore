@@ -13,11 +13,13 @@ namespace IdentityNetCore.Controllers
     {
         private readonly IServicioUsuario _usuario;
         private readonly DataContext _context;
+        private readonly IServicioCorreo _correo;
 
-        public UsuariosController(IServicioUsuario usuario, DataContext context)
+        public UsuariosController(IServicioUsuario usuario, DataContext context, IServicioCorreo correo)
         {
             _usuario = usuario;
             _context = context;
+            _correo = correo;
         }
 
         public async Task<IActionResult> Index()
@@ -51,6 +53,26 @@ namespace IdentityNetCore.Controllers
                     ModelState.AddModelError(string.Empty, "Este correo ya está siendo usado.");
                     return View(model);
                 }
+                string myToken = await _usuario.GenerateEmailConfirmationTokenAsync(user);
+                string tokenLink = Url.Action("ConfirmEmail", "Account", new
+                {
+                    userid = user.Id,
+                    token = myToken
+                }, protocol: HttpContext.Request.Scheme)!;
+
+                Response response = _correo.SendMail(
+               $"{model.Nombre}",
+                model.Username,
+                "Tecnologers - Confirmación de Email",
+                $"<h1>Tecnologers - Confirmación de Email</h1>" +
+                $"Para habilitar el usuario por favor hacer clic en el siguiente link:, " +
+                $"<p><a href = \"{tokenLink}\">Confirmar Email</a></p>");
+                if (response.IsSuccess)
+                {
+                    ViewBag.Message = "Las instrucciones para habilitar el usuario han sido enviadas al correo.";
+                    return View(model);
+                }
+                ModelState.AddModelError(string.Empty, response.Message!);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);

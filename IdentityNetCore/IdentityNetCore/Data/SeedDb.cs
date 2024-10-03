@@ -62,6 +62,9 @@ namespace IdentityNetCore.Data
                 };
                 await _usuario.AddUserAsync(user, "123456");
                 await _usuario.AddUserToRoleAsync(user, Rol.Admin.ToString());
+
+                string token = await _usuario.GenerateEmailConfirmationTokenAsync(user);
+                await _usuario.ConfirmEmailAsync(user, token);
             }
 
             return user;
