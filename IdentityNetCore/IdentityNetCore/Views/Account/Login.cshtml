@@ -35,7 +35,7 @@
                     <div class="card-body">
 
                         <form asp-controller="Account" asp-action="Login" method="post">
-
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input asp-for="Username" class="form-control mb-3" type="text" placeholder="Usuario" />
                             <input asp-for="Password" class="form-control mb-3" type="password" placeholder="Contraseña" />
                             <div class="form-group mt-2">

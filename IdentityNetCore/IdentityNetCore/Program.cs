@@ -27,6 +27,9 @@ namespace IdentityNetCore
                 x.Password.RequireLowercase = false;
                 x.Password.RequireNonAlphanumeric = false;
                 x.Password.RequireUppercase = false;
+                x.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                x.Lockout.MaxFailedAccessAttempts = 3;
+                x.Lockout.AllowedForNewUsers = true;
             }).AddEntityFrameworkStores<DataContext>();
 
             builder.Services.AddTransient<SeedDb>();
